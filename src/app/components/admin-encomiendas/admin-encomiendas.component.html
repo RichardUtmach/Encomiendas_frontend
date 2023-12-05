@@ -1,0 +1,159 @@
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-6">
+        <h1>Administrar Encomiendas 📦</h1>
+      </div>
+      <div class="col">
+        <!-- Espacio central entre del h1 y el botón -->
+      </div>
+      <div class="col">
+        <div
+          class="btn-group"
+          role="group"
+          aria-label="Basic example"
+          data-bs-toggle="modal"
+          data-bs-target="#staticBackdrop"
+        >
+          <button type="button" class="btn btn-success" (click)="opcionInsertar()">
+            Insertar <i class="bi bi-plus-circle"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <br />
+
+    <div>
+      <div class="row">
+        <div class="col">
+          <!-- Espacio Izquierdo -->
+        </div>
+        <div class="col-10">
+          <table *ngIf="listEncomiendas.length > 0" class="table table-striped table-hover">
+            <!-- Código, Cédula, Nombres, Teléfono, Dirección -->
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Peso KG</th>
+                <th scope="col">Dirección</th>
+                <th scope="col">Costo de envío</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Opciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of listEncomiendas" class="table-active">
+                <td>{{ item.id }}</td>
+                <td>{{ item.peso}} kg</td>
+                <td>{{ item.direccion }}</td>
+                <td>$ {{ item.costoenvio}}</td>
+                <td>{{ item.estado }}</td>
+                
+                <td>
+                  <div
+                    class="btn-group"
+                    role="group"
+                    aria-label="Basic example"
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop"
+                  >
+                    <button
+                      type="button"
+                      class="btn btn-warning"
+                      (click)="opcionEditar(item.id!)"
+                    >
+                      Editar<i class="bi bi-pencil-square"></i>
+                    </button>
+                  </div>
+                  <button
+                    (click)="deleteEncomienda(item.id!)"
+                    type="button"
+                    class="btn btn-danger ms-2"
+                  >
+                    Eliminar<i class="bi bi-trash3"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <h5 *ngIf="listEncomiendas.length == 0">No hay encomiendas para mostrar</h5>
+        </div>
+        <div class="col">
+          <!-- Espacio Derecho -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ******************    Modal Insertar    *****************-->
+<form [formGroup]="form" (ngSubmit)="addEncomienda()">
+  <div
+    class="modal fade"
+    id="staticBackdrop"
+    data-bs-backdrop="static"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">
+            Insertar Encomiendas
+          </h5>
+        </div>
+        <div class="modal-body">
+          <!-- Peso, Direccion, CostoEnvío -->
+          <form>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Peso KG</label>
+              <input
+                type="number"
+                class="form-control"
+                formControlName="peso"
+                id="peso"
+                placeholder="000.000.000"
+              />
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Dirección de envío</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="direccion"
+                id="direccion"
+                placeholder="Provincia-Ciudad-Barrio-Calles"
+              />
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Costo de envío</label>
+              <input
+                type="number"
+                class="form-control"
+                formControlName="costoenvio"
+                id="costoenvio"
+                placeholder="$$$.$$$.$$$"
+              />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">
+            Guardar
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+            (click)="limpiarDatos()"
+          >
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

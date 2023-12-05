@@ -1,0 +1,172 @@
+<section>
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col-6">
+        <h1>Administrar Camiones 🚚</h1>
+      </div>
+      <div class="col">
+        <!-- Espacio central entre del h1 y el botón -->
+      </div>
+      <div class="col">
+        <div
+          class="btn-group"
+          role="group"
+          aria-label="Basic example"
+          data-bs-toggle="modal"
+          data-bs-target="#staticBackdrop"
+        >
+          <button type="button" class="btn btn-success" (click)="opcionInsertar()">
+            Insertar <i class="bi bi-plus-circle"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <br />
+
+    <div>
+      <div class="row">
+        <div class="col">
+          <!-- Espacio Izquierdo -->
+        </div>
+        <div class="col-10">
+          <table *ngIf="listCamiones.length > 0" class="table table-striped table-hover">
+            <!-- Camión , PLaca, Propietario, Peso -->
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Camión</th>
+                <th scope="col">Placa</th>
+                <th scope="col">Propietario</th>
+                <th scope="col">Capacidad KG</th>
+                <th scope="col">Peso cargado KG</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Opciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of listCamiones" class="table-active">
+                <td>{{ item.id }}</td>
+                <td>{{ item.camion_name }}</td>
+                <td>{{ item.placa }}</td>
+                <td>{{ item.propietario }}</td>
+                <td>{{ item.capacidad }} kg</td>
+                <td>{{ item.peso }} kg</td>
+                <td>{{ item.estado }}</td>
+                <td>
+                  <div
+                    class="btn-group"
+                    role="group"
+                    aria-label="Basic example"
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop"
+                  >
+                    <button
+                      type="button"
+                      class="btn btn-warning"
+                      (click)="opcionEditar(item.id!)"
+                    >
+                      Editar<i class="bi bi-pencil-square"></i>
+                    </button>
+                  </div>
+                  <button
+                    (click)="deleteCamion(item.id!)"
+                    type="button"
+                    class="btn btn-danger ms-2"
+                  >
+                    Eliminar<i class="bi bi-trash3"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <h5 *ngIf="listCamiones.length == 0">No hay camiones para mostrar</h5>
+        </div>
+        <div class="col">
+          <!-- Espacio Derecho -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ******************    Modal Insertar    *****************-->
+<form [formGroup]="form" (ngSubmit)="addCamion()">
+  <div
+    class="modal fade"
+    id="staticBackdrop"
+    data-bs-backdrop="static"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">
+            Insertar Camiones
+          </h5>
+        </div>
+        <div class="modal-body">
+          <!-- nombrecamion placa propietario capacidad peso estado -->
+          <form>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Camión</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="camion_name"
+                id="camion_name"
+                placeholder="marca-nombre-etc"
+              />
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Placa</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="placa"
+                id="placa"
+                placeholder="abc-123"
+              />
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Propietario</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="propietario"
+                id="propietario"
+                placeholder="nombre-dueño"
+              />
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Capacidad KG</label>
+              <input
+                type="number"
+                class="form-control"
+                formControlName="capacidad"
+                id="capacidad"
+                placeholder="000.000.000"
+              />
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">
+            Guardar
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+            (click)="limpiarDatos()"
+          >
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

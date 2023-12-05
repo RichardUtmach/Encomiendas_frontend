@@ -1,0 +1,82 @@
+<section>
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col-6">
+        <h1>Control de Encomiendas 📑</h1>
+      </div>
+      <div class="col">
+        <!-- Espacio central entre del h1 y el botón -->
+      </div>
+      <div class="col">
+        <div
+          class="btn-group"
+          role="group"
+          aria-label="Basic example"
+          data-bs-toggle="modal"
+          data-bs-target="#staticBackdrop"
+        ></div>
+      </div>
+    </div>
+    <hr />
+    <br />
+
+    <div>
+      <div class="row">
+        <div class="col">
+          <!-- Espacio Izquierdo -->
+        </div>
+        <div class="col-10">
+          <table
+            *ngIf="listCamionesOcupados.length > 0"
+            class="table table-hover table-striped"
+          >
+            <!-- Camión , PLaca, Propietario, Peso -->
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Camión</th>
+                <th scope="col">Placa</th>
+                <th scope="col">Propietario</th>
+                <th scope="col">Capacidad KG</th>
+                <th scope="col">Peso cargado KG</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acciones con los camiones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let item of listCamionesOcupados"
+                class="table-active"
+              >
+                <td>{{ item.id }}</td>
+                <td>{{ item.camion_name }}</td>
+                <td>{{ item.placa }}</td>
+                <td>{{ item.propietario }}</td>
+                <td>{{ item.capacidad }} kg</td>
+                <td>{{ item.peso }} kg</td>
+                <td>{{ item.estado }}</td>
+                <td>
+                  <button type="button" class="btn btn-success"
+                  (click)="opcionEntregar(item.id!)">
+                    Entregar<i class=""></i>
+                  </button>
+
+                  <button type="button" class="btn btn-danger ms-2"
+                  (click)="opcionNoEntregar(item.id!)">
+                    No entregar<i class=""></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <h5 *ngIf="listCamionesOcupados.length == 0">
+            No hay camiones viajando actualmente
+          </h5>
+        </div>
+        <div class="col">
+          <!-- Espacio Derecho -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

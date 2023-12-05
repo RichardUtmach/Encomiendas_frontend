@@ -1,0 +1,180 @@
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-6">
+        <h1>Guía de Envío 📖</h1>
+      </div>
+      <div class="col">
+        <!-- Espacio central entre del h1 y el botón -->
+      </div>
+      <div class="col">
+        <div
+          class="btn-group"
+          role="group"
+          aria-label="Basic example"
+          data-bs-toggle="modal"
+          data-bs-target="#staticBackdrop"
+        >
+          
+        </div>
+      </div>
+    </div>
+    <hr />
+    <br />
+
+    <div>
+      <div class="row">
+        <div class="col-5">
+          <table *ngIf="listCamiones.length > 0" class="table table-striped table-hover">
+            <!-- Camión , PLaca, Propietario, Peso -->
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Camión</th>
+                <th scope="col">Capacidad KG</th>
+                <th scope="col">Carga KG</th>
+                <th scope="col">Estado</th>
+                <th scope="col">GO!</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of listCamiones" class="table-active">
+                <td>{{ item.id }}</td>
+                <td>{{ item.camion_name }}</td>
+                <td>{{ item.capacidad }} kg</td>
+                <td>{{ item.peso }} kg</td>
+                <td>{{ item.estado }}</td>
+                <td>
+                    <button
+                          type="button"
+                          class="btn btn-success"
+                          (click)="setCamionOcupado(item.id!)"
+                          *ngIf="item.capacidad-item.peso <= 50 && item.estado === '✅Disponible'"
+                        >
+                          <i class="bi bi-send"></i>
+                        </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <h5 *ngIf="listCamiones.length == 0">No hay camiones para mostrar</h5>
+        </div>
+
+        <div class="col-7">
+          <table *ngIf="listEncomiendas.length > 0" class="table table-striped table-hover">
+            <!-- Código, Cédula, Nombres, Teléfono, Dirección -->
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Peso KG</th>
+                <th scope="col">Dirección</th>
+                <th scope="col">Costo</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Id Camión</th>
+                <th scope="col">Enviar?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of listEncomiendas" class="table-active">
+                <td>{{ item.id }}</td>
+                <td>{{ item.peso }} kg</td>
+                <td>{{ item.direccion }}</td>
+                <td>$ {{ item.costoenvio }}</td>
+                <td>{{ item.estado }}</td>
+                <td>{{ item.id_camion }}</td>
+
+                <td>
+                  <div
+                    class="btn-group"
+                    role="group"
+                    aria-label="Basic example"
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop"
+                  >
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      (click)="opcionEnviar(item.id!)"
+                      *ngIf="item.id_camion === 0 && item.estado === '🔷Nuevo'"
+                    >
+                      Enviar<i class="bi bi-send"></i>
+                    </button>
+                  </div>
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <h5 *ngIf="listEncomiendas.length == 0">
+            No hay encomiendas para mostrar
+          </h5>
+        </div>
+        <div class="col">
+          <!-- Espacio Derecho -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ******************    Modal Insertar    *****************-->
+<form [formGroup]="form" (ngSubmit)="comprobarPesoCamion()">
+  <div
+    class="modal fade"
+    id="staticBackdrop"
+    data-bs-backdrop="static"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">
+            Seleccionar Camion
+          </h5>
+        </div>
+        <div class="modal-body">
+          <!-- Peso, Direccion, CostoEnvío -->
+          <form>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Camiones disponibles</label>
+
+              <select
+                class="form-select"
+                aria-label="Default select example"
+                formControlName="id_camion"
+                id="id_camion"
+                placeholder="Seleccionar camion"
+              >
+              <option value="">Seleccionar camion</option>
+                  
+        
+                <option
+                  *ngFor="let camion of listCamionesDisponibles"
+                  value="{{ camion.id }}"
+                >
+                  {{ camion.camion_name }}
+                </option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">
+            Aceptar
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+            (click)="limpiarDatos()"
+          >
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
